@@ -1,1 +1,61 @@
-The Art of Memory
+<div class="memory-wheel">
+  <div class="memory-wheel-label">Memory Wheel</div>
+  <div class="memory-wheel-outer">
+    <div class="memory-wheel-inner"></div>
+  </div>
+</div>
+.memory-wheel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  font-size: 18px;
+}
+
+.memory-wheel-label {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.memory-wheel-outer {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 5px solid #ccc;
+}
+
+.memory-wheel-inner {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  border-radius: 50%;
+  border: 5px solid #fff;
+}
+const wheel = document.querySelector('.memory-wheel-inner');
+let rotation = 0;
+
+wheel.addEventListener('mousedown', function(event) {
+  event.preventDefault();
+  let startX = event.clientX;
+  let startY = event.clientY;
+  
+  document.addEventListener('mousemove', rotateWheel);
+  document.addEventListener('mouseup', stopRotateWheel);
+  
+  function rotateWheel(event) {
+    let deltaX = event.clientX - startX;
+    let deltaY = event.clientY - startY;
+    let angle = Math.atan2(deltaY, deltaX);
+    rotation += angle * 180 / Math.PI;
+    wheel.style.transform = 'rotate(' + rotation + 'deg)';
+  }
+  
+  function stopRotateWheel(event) {
+    document.removeEventListener('mousemove', rotateWheel);
+    document.removeEventListener('mouseup', stopRotateWheel);
+  }
+});
+
